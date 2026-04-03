@@ -34,6 +34,9 @@ def load_data():
    # One-hot encode categorical features
     X = pd.get_dummies(X, columns=['island', 'sex'], drop_first=True)
     return X, y
+    print(X.head())
+    print(y.head())
+
 
 def main():
     X, y = load_data()
@@ -72,3 +75,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    load_data()
