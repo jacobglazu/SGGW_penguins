@@ -1,0 +1,28 @@
+data:
+  source: openml
+  dataset_id: 42585
+  target: class
+drop_columns:
+  - id
+  - url
+  - data_type
+  - task_type
+  - status
+  - format
+  - creator
+  - upload_date
+  - version
+preprocessing:
+  categorical_encoding: onehot
+  numerical_imputation: median
+  categorical_imputation: most_frequent
+model:
+  type: random_forest 
+  parameters:
+    n_estimators: 100
+    max_depth: 10
+    random_state: 42
+training:
+  test_size: 0.2 
+  random_state: 42
+  
