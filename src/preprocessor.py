@@ -1,0 +1,56 @@
+import pandas as pd
+
+class Preprocessor:
+    def __init__(self, config: dict):
+        # Initialize the preprocessor with the given configuration
+        self.config = config
+        self._median_values = {}  # To store median values for imputation
+        self._modes = {}  # To store mode values for imputation
+        self.isFitted = False  # Flag to check if the preprocessor has been fitted
+
+    def fit(self, df: pd.DataFrame) -> "Preprocessor":
+        # Fit the preprocessor to the data (calculate median and mode for imputation)
+        fill_strategy = self.config["preprocessing"]["fill_strategy"]
+
+        for column, strategy in fill_strategy.items():
+            if strategy == "median":
+                self._median_values[column] = df[column].median()
+            elif strategy == "mode":
+                self._modes[column] = df[column].mode()[0]
+        self.isFitted = True
+        return self
+    
+    def transform(self, df: pd.DataFrame) -> pd.DataFrame:
+        # Transform the data (impute missing values and perform any other transformations)
+        if not self.isFitted:
+            raise ValueError("Preprocessor must be fitted before calling transform.")
+        
+        df = df.copy()  # Avoid modifying the original DataFrame
+        
+
+        for column, median_val in self._median_values.items():
+            df[column] = df[column].fillna(median_val)
+        for column, mode_val in self._modes.items():
+            df[column] = df[column].fillna(mode_val)
+        
+        encode_config = self.config["preprocessing"]["encode"]
+        if "sex" in encode_config:
+            df["sex"] = df["sex"].map({"male": 0, "female": 1})
+        if  "species" in encode_config:
+            df["species"] = df["species"].map({"Adelie": 0, "Chinstrap": 1, "Gentoo": 2})
+        if "island" in encode_config:
+            df["island"] = df["island"].map({"Biscoe": 0, "Dream": 1, "Torgersen": 2}) 
+        if  encode_config.get("flipper_length_mm", False):
+            df["flipper_length_mm"] = df["flipper_length_mm"].astype(int)
+        if  encode_config.get("body_mass_g", False):
+            df["body_mass_g"] = df["body_mass_g"].astype(int)
+        if  encode_config.get("culmen_length_mm", False):
+            df["culmen_length_mm"] = df["culmen_length_mm"].astype(int)
+        if  encode_config.get("culmen_depth_mm", False):
+            df["culmen_depth_mm"] = df["culmen_depth_mm"].astype(int)
+        if encode_config.get("year", False):
+            df["year"] = df["year"].astype(int) 
+        if encode_config.get("embarked") == "onehot":
+            df = pd.get_dummies(df, columns=["embarked"], drop_first=True) 
+        return df
+            
