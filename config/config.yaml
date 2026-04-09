@@ -2,16 +2,7 @@ data:
   source: openml
   dataset_id: 42585
   target: class
-drop_columns:
-  - id
-  - url
-  - data_type
-  - task_type
-  - status
-  - format
-  - creator
-  - upload_date
-  - version
+drop_columns:  
 preprocessing:
   categorical_encoding: onehot
   numerical_imputation: median

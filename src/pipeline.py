@@ -1,13 +1,14 @@
+#from bentoml import metrics
 from sklearn.model_selection import train_test_split
 
-from .data_loader import load_data
+from .data_loader import DataLoader
 from .preprocessor import Preprocessor
 from .trainer import ModelTrainer
 
 class PenguinPipeline:
     def __init__(self, config: dict):
         self.config = config
-        self.data_loader = load_data(config)
+        self.data_loader = DataLoader(config)
         self.preprocessor = Preprocessor(config)
         self.trainer = ModelTrainer(config)
 
@@ -25,5 +26,9 @@ class PenguinPipeline:
         model = self.trainer.train(X_train, y_train)
 
         # Evaluate the model
-        accuracy = self.trainer.evaluate(model, X_test, y_test)
-        print(f"Model Accuracy: {accuracy:.2f}")
+        metrics = self.trainer.evaluate(model, X_test, y_test)
+        for metric_name, metric_value in metrics.items():
+            print(f"{metric_name.capitalize()}: {metric_value:.4f}")
+        
+
+        return metrics
