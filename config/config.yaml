@@ -2,13 +2,30 @@ data:
   source: openml
   dataset_id: 42585
   target: class
-drop_columns:  
+drop_columns:  []
 preprocessing:
-  categorical_encoding: onehot
-  numerical_imputation: median
-  categorical_imputation: most_frequent
+  fill_strategy:
+    culmen_length_mm: median
+    culmen_depth_mm: median
+    flipper_length_mm: median
+    body_mass_g: median
+    embarked: most_frequent
+  encode:
+    sex:
+      male: 0
+      female: 1
+    species:
+      Adelie: 0
+      Chinstrap: 1
+      Gentoo: 2
+    island:
+      Biscoe: 0
+      Dream: 1
+      Torgersen: 2
+    embarked: onehot
+ 
 model:
-  type: random_forest 
+  type: RandomForestClassifier 
   parameters:
     n_estimators: 100
     max_depth: 10

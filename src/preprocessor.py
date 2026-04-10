@@ -33,24 +33,16 @@ class Preprocessor:
         for column, mode_val in self._modes.items():
             df[column] = df[column].fillna(mode_val)
         
+        
+        for column, median_val in self._median_values.items():
+            df[column] = df[column].fillna(median_val)
+        for column, mode_val in self._modes.items():
+            df[column] = df[column].fillna(mode_val)    
         encode_config = self.config["preprocessing"]["encode"]
         if "sex" in encode_config:
-            df["sex"] = df["sex"].map({"male": 0, "female": 1})
-        if  "species" in encode_config:
-            df["species"] = df["species"].map({"Adelie": 0, "Chinstrap": 1, "Gentoo": 2})
-        if "island" in encode_config:
-            df["island"] = df["island"].map({"Biscoe": 0, "Dream": 1, "Torgersen": 2}) 
-        if  encode_config.get("flipper_length_mm", False):
-            df["flipper_length_mm"] = df["flipper_length_mm"].astype(int)
-        if  encode_config.get("body_mass_g", False):
-            df["body_mass_g"] = df["body_mass_g"].astype(int)
-        if  encode_config.get("culmen_length_mm", False):
-            df["culmen_length_mm"] = df["culmen_length_mm"].astype(int)
-        if  encode_config.get("culmen_depth_mm", False):
-            df["culmen_depth_mm"] = df["culmen_depth_mm"].astype(int)
-        if encode_config.get("year", False):
-            df["year"] = df["year"].astype(int) 
+            df["sex"] = df["sex"].map(encode_config["sex"]).astype(int)
+             
         if encode_config.get("embarked") == "onehot":
-            df = pd.get_dummies(df, columns=["embarked"], drop_first=True) 
+            df = pd.get_dummies(df, columns=["embarked"], drop_first=True)
         return df
-            
+                   

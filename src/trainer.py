@@ -5,11 +5,11 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 class ModelTrainer:
     def __init__(self, config: dict):
         # Initialize the model trainer with the given configuration
-        model_config = config["model_params"]
-        model_type = model_config["model_type"]
+        model_config = config["model"]
+        model_type = model_config["type"]
         model_params = model_config.get("params", {})
 
-        if model_type == "RandomForest":
+        if model_type in {"RandomForest", "RandomForestClassifier"}:
             self.model = RandomForestClassifier(**model_params)
         else:
             raise ValueError(f"Unsupported model type: {model_type}")

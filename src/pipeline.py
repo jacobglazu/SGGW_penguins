@@ -16,17 +16,23 @@ class PenguinPipeline:
         # Load the data
         df = self.data_loader.load_data()
 
-        # Preprocess the data
-        X, y = self.preprocessor.preprocess(df)
-
-        # Split the data into training and testing sets
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
+        # Preprocess the data"
+        X = df.drop(columns=["species"])
+        y = df["species"]
+        
+        training_config = self.config["training"]
         # Train the model
-        model = self.trainer.train(X_train, y_train)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, 
+            test_size=training_config["test_size"], 
+            random_state=training_config["random_state"])
 
+        self.preprocessor.fit(X_train)
+        X_train = self.preprocessor.transform(X_train)
+        X_test = self.preprocessor.transform(X_test)
+
+        model = self.trainer.train(X_train, y_train)
         # Evaluate the model
-        metrics = self.trainer.evaluate(model, X_test, y_test)
+        metrics = self.trainer.evaluate( X_test, y_test)
         for metric_name, metric_value in metrics.items():
             print(f"{metric_name.capitalize()}: {metric_value:.4f}")
         

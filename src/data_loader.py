@@ -12,7 +12,7 @@ class DataLoader:
         dataset_id = data_config["dataset_id"]
 
         # Fetch the dataset from OpenML
-        dataset = fetch_openml(dataset_id, as_frame=True)
+        dataset = fetch_openml(data_id=dataset_id, as_frame=True)
         df = dataset.frame
 
         # Perform any necessary preprocessing steps
