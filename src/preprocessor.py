@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 class Preprocessor:
@@ -6,6 +7,7 @@ class Preprocessor:
         self.config = config
         self._median_values = {}  # To store median values for imputation
         self._modes = {}  # To store mode values for imputation
+        self._most_frequent = {}  # To store most frequent values for imputation
         self.isFitted = False  # Flag to check if the preprocessor has been fitted
 
     def fit(self, df: pd.DataFrame) -> "Preprocessor":
@@ -14,9 +16,17 @@ class Preprocessor:
 
         for column, strategy in fill_strategy.items():
             if strategy == "median":
-                self._median_values[column] = df[column].median()
+                self._median_values[column] = df[column].fillna(df[column].median())
+                self._median_values[column] = self._median_values[column].astype(np.int64)
             elif strategy == "mode":
-                self._modes[column] = df[column].mode()[0]
+                self._modes[column] = df[column].dropna().mode()[0]
+                self._modes[column] = self._modes[column].astype(np.int64)
+            elif strategy == "most_frequent":
+                self._most_frequent[column] = df[column].dropna()
+                
+        
+                
+
         self.isFitted = True
         return self
     

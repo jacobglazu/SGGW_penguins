@@ -5,11 +5,13 @@ data:
 drop_columns:  []
 preprocessing:
   fill_strategy:
+    sex: most_frequent
+    island: most_frequent
     culmen_length_mm: median
     culmen_depth_mm: median
     flipper_length_mm: median
-    body_mass_g: median
-    embarked: most_frequent
+    body_mass_g: median  
+    
   encode:
     sex:
       male: 0
