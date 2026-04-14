@@ -33,10 +33,10 @@ def load_data():
     
    # One-hot encode categorical features
     X = pd.get_dummies(X, columns=['island', 'sex'], drop_first=True)
+    
+    print(X.head(120))
+    print(y.head(120))
     return X, y
-    print(X.head())
-    print(y.head())
-
 
 def main():
     X, y = load_data()
@@ -74,5 +74,7 @@ def main():
         mlflow.sklearn.log_model(model, "model", signature=signature)
 
 if __name__ == "__main__":
-    main()
+    #main()
     load_data()
+    #print(X.head())
+    #print(y.head())

@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import yaml
+from typing import Self
 
 class Preprocessor:
     def __init__(self, config: dict):
@@ -10,21 +12,42 @@ class Preprocessor:
         self._most_frequent = {}  # To store most frequent values for imputation
         self.isFitted = False  # Flag to check if the preprocessor has been fitted
 
-    def fit(self, df: pd.DataFrame) -> "Preprocessor":
+    def fit(self, df: pd.DataFrame) -> Self:
         # Fit the preprocessor to the data (calculate median and mode for imputation)
         fill_strategy = self.config["preprocessing"]["fill_strategy"]
 
         for column, strategy in fill_strategy.items():
             if strategy == "median":
-                self._median_values[column] = df[column].fillna(df[column].median())
-                self._median_values[column] = self._median_values[column].astype(np.int64)
+                median = []
+                median = self._median_values[column].median()
+                if pd.isna(median):                 
+                    self._median_values[column] = 0.0  # Handle case where all values are NaN
+                    #self._median_values[column] = df[column].dropna()  
+                else:
+                    self._median_values[column] = 20.0  # Handle case where all values are NaN
+                    #self._median_values[column] = df[column].dropna()
+                #df[column] = df[column].fillna(self._most_frequent[column])    
+               
             elif strategy == "mode":
-                self._modes[column] = df[column].dropna().mode()[0]
-                self._modes[column] = self._modes[column].astype(np.int64)
-            elif strategy == "most_frequent":
-                self._most_frequent[column] = df[column].dropna()
+                mode = self._modes.df[column].mode()
+                if mode.empty:
+                    self._modes[column] = 0  # Handle case where all values are NaN
+                else:
+                    self._modes[column] = mode[0]
+                df[column] = df[column].fillna(self._modes[column])
                 
-        
+            elif strategy == "most_frequent":
+                #most_frequent = pd.to_numeric(self._most_frequent[column], errors='coerce')
+                if column in self._most_frequent:
+                    most_frequent = pd.to_numeric(self._most_frequent[column], errors='coerce')
+                    if pd.isna(most_frequent):
+                        
+                        self._most_frequent[column] = "MALE"  # Handle case where all values are NaN
+                    else:
+                        self._most_frequent[column] = "FEMALE"  
+                    df[column] = df[column].fillna(self._most_frequent[column])
+            
+                      
                 
 
         self.isFitted = True

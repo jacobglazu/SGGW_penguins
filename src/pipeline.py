@@ -16,6 +16,7 @@ class PenguinPipeline:
         # Load the data
         df = self.data_loader.load_data()
 
+        #self.preprocessor.fit(X_train)
         # Preprocess the data"
         X = df.drop(columns=["species"])
         y = df["species"]
@@ -27,6 +28,7 @@ class PenguinPipeline:
             random_state=training_config["random_state"])
 
         self.preprocessor.fit(X_train)
+        
         X_train = self.preprocessor.transform(X_train)
         X_test = self.preprocessor.transform(X_test)
 

@@ -6,7 +6,7 @@ drop_columns:  []
 preprocessing:
   fill_strategy:
     sex: most_frequent
-    island: most_frequent
+    #island: most_frequent
     culmen_length_mm: median
     culmen_depth_mm: median
     flipper_length_mm: median
