@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
@@ -13,16 +14,41 @@ class ModelTrainer:
             self.model = RandomForestClassifier(**model_params)
         else:
             raise ValueError(f"Unsupported model type: {model_type}")
+        
+    def predict(self, X_test: np.ndarray, y_test: np.ndarray):
+        test_df = pd.read_csv("data/test.csv")
+        X_test = test_df.drop(columns=["species"])
+        y_test = test_df["species"]
 
+        #return X_test, y_test
+        
+        #return y_pred
 
     def train(self, X_train: np.ndarray, y_train: np.ndarray) -> None:
         # Train the model using the training data and return the trained model
-        self.model.fit(X_train, y_train)
+        #self.model.fit(X_train, y_train)
+        train_df = pd.read_csv("data/train.csv")
+        X_train = train_df.drop(columns=["species"])
+        y_train = train_df["species"]
+
+        #return X_train, y_train
+        
         
 
-    def evaluate(self, X_test: np.ndarray, y_test: np.ndarray) -> dict:
+    def evaluate(self, y_pred: np.ndarray, y_test: np.ndarray) -> dict:
         # Evaluate the model using the test data and return the accuracy
-        y_pred = self.model.predict(X_test)
+        test_df = pd.read_csv("data/test.csv")
+        X_test = test_df.drop(columns=["species"])
+        y_test = test_df["species"]
+        #self.model.fit(X_train, y_train)
+        
+        
+        
+        
+        
+        #y_pred = self.model.predict(X_test)
+        print("y_test:", y_test)
+        print("y_pred:", y_pred)
         accuracy = accuracy_score(y_test, y_pred)
         f1 = f1_score(y_test, y_pred, average='weighted')
         precision = precision_score(y_test, y_pred, average='weighted')
@@ -33,3 +59,4 @@ class ModelTrainer:
             "precision": precision,
             "recall": recall
         }
+    
