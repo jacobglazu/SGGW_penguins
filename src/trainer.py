@@ -15,12 +15,12 @@ class ModelTrainer:
         else:
             raise ValueError(f"Unsupported model type: {model_type}")
         
-    def predict(self, X_test: np.ndarray, y_test: np.ndarray):
+    def predict(self, X_test: np.ndarray):
         test_df = pd.read_csv("data/test.csv")
         X_test = test_df.drop(columns=["species"])
-        y_test = test_df["species"]
+        #y_test = test_df["species"]
 
-        #return X_test, y_test
+        return X_test, #y_test
         
         #return y_pred
 
@@ -32,7 +32,7 @@ class ModelTrainer:
         y_train = train_df["species"]
 
         #return X_train, y_train
-        
+        self.model.fit(X_train,y_train)
         
 
     def evaluate(self, y_pred: np.ndarray, y_test: np.ndarray) -> dict:
@@ -40,14 +40,19 @@ class ModelTrainer:
         test_df = pd.read_csv("data/test.csv")
         X_test = test_df.drop(columns=["species"])
         y_test = test_df["species"]
-        #self.model.fit(X_train, y_train)
+        
+        
+        y_pred = self.model.predict(X_test)
+
+
         
         
         
         
         
         #y_pred = self.model.predict(X_test)
-        print("y_test:", y_test)
+        print("y_test:", y_test.head())
+        #print(y_test.dtype())
         print("y_pred:", y_pred)
         accuracy = accuracy_score(y_test, y_pred)
         f1 = f1_score(y_test, y_pred, average='weighted')

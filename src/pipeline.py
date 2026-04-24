@@ -60,10 +60,12 @@ class PenguinPipeline:
             pickle.dump(encoder, f)
         print("Preprocessing done. Encoder saved.")
         
-        model = self.trainer.train(X_train, y_train)
-        y_pred= self.trainer.predict(X_test, y_test)
+
+        trainer = ModelTrainer(self.config)
+        model = trainer.train(X_train, y_train)
+        y_pred= trainer.predict(X_test)
         # Evaluate the model
-        metrics = self.trainer.evaluate(y_test,y_pred)
+        metrics = trainer.evaluate(y_test,y_pred)
         for metric_name, metric_value in metrics.items():
             print(f"{metric_name.capitalize()}: {metric_value:.4f}")
         
