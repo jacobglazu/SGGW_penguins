@@ -3,6 +3,7 @@ import yaml
 from src.pipeline import PenguinPipeline
 from src.trainer import ModelTrainer
 
+
 def main():
     config_path = Path(__file__).parent / "config" / "config.yaml"
 
