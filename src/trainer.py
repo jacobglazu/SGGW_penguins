@@ -84,12 +84,19 @@ class ModelTrainer:
         print("y_test:", y_test.head())
         #print(y_test.dtype())
         print("y_pred:", y_pred)
-        metrics ={
-        "accuracy" : accuracy_score(y_test, y_pred),
-        "f1" : f1_score(y_test, y_pred, average='weighted'),
-        "precision" : precision_score(y_test, y_pred, average='weighted'),
-        "recall" : recall_score(y_test, y_pred, average='weighted')
+        
+        accuracy = accuracy_score(y_test, y_pred)
+        f1 = f1_score(y_test, y_pred, average='weighted')
+        precision = precision_score(y_test, y_pred, average='weighted')
+        recall = recall_score(y_test, y_pred, average='weighted')
+
+        metrics = {
+            "accuracy" : round(accuracy, 4),
+            "f1" : round(f1, 4),
+            "precision" : round(precision, 4),
+            "recall" : round(recall, 4)
         }
+        print(metrics)
         # Przekierownie zmiennych
         __all__ = ['y_test', 'y_pred', 'test_dataset', 'train_dataset', 'cm', 'signature', 'evaluate()', 'metrics']
 

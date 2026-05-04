@@ -111,17 +111,17 @@ class PenguinPipeline:
             }
            mlflow.log_params(params)
            model_ml = LogisticRegression(**params)
-           # to do cos nie dzila metrics
+           # to do cos nie dziala metrics
            #eval_result = trainer.evaluate()
            #dict_metrics = dict(metrics)
-           for metric_name, metric_value in enumerate(metrics):
-            mlflow.log_metrics(metrics)
-            print(metrics)
-
+           #for metric_name, metric_value in enumerate(metrics):
+           mlflow.log_metrics(metrics[0])
+           print(metrics)
+           print(cm) 
            tmpdir = tempfile.mkdtemp()
            try:
                 #cm = trainer.cm
-                disp = ConfusionMatrixDisplay(confusion_matrix= cm, )
+                disp = ConfusionMatrixDisplay(confusion_matrix= cm[1], )
                 fig_cm, ax_cm = plt.subplots(figsize=(6, 5))
                 disp.plot(ax=ax_cm, cmap="Blues")
                 ax_cm.set_title("Macierz pomyłek — Random Forest")
@@ -135,7 +135,7 @@ class PenguinPipeline:
            mlflow.log_artifact(__file__, artifact_path="code")
 
            #signature = trainer.signature
-           mlflow.sklearn.log_model(model_ml, "model", signature=signature)
+           mlflow.sklearn.log_model(model_ml, "model", signature=signature[2])
 
            """ mlflow.log_params({"model_type" : model_type})
             mlflow.log_params({"model_par": model_par})
