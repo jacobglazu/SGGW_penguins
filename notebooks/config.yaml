@@ -1,0 +1,7 @@
+name: penguins-classification
+
+#conda_env: conda.yaml  # Opcjonalnie, jeśli używasz środowiska Conda
+
+entry_points:
+  main:
+    command: "python model.py --n_estimators={n_estimators} --max_depth={max_depth}"

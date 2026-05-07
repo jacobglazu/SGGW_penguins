@@ -1,0 +1,9 @@
+python: "3.12"
+#python_bin: python
+build_dependencies:
+  - pip
+  - setuptools
+dependencies:
+  - -r requirements.txt
+  - pip: 
+    - mlflow
