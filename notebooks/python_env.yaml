@@ -1,9 +1,6 @@
-python: "3.12"
-#python_bin: python
+python: "../my_app/Scripts/python.exe"
 build_dependencies:
   - pip
   - setuptools
 dependencies:
   - -r requirements.txt
-  - pip: 
-    - mlflow
