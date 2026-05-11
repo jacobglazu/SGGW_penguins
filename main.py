@@ -2,6 +2,9 @@ from pathlib import Path
 import yaml
 from src.pipeline import PenguinPipeline
 from src.trainer import ModelTrainer
+#import sys
+#sys.path.append("D:/Kuba/SGGW_penguins")
+#from notebooks.train import train
 
 
 def main():
@@ -14,6 +17,7 @@ def main():
     pipeline = PenguinPipeline(config)
     print("Evaluation Metrics:")
     metrics = pipeline.run()
+    #train(100,6)
     
     #return metrics
     

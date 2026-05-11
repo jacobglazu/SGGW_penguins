@@ -1,5 +1,6 @@
 import os
 import sys
+import yaml
 from joblib import dump
 import numpy as np
 import pandas as pd
@@ -33,12 +34,15 @@ def main():
         X_final, y, test_size=0.2, random_state=42
     )
     
-    params = {
+    """params = {
         "n_estimators": args.n_estimators,
         "max_depth": args.max_depth,
         "random_state": 42,
         "imputation": args.imputation,
-    }
+    }"""
+
+    with open("params.yaml") as f:
+        params = yaml.safe_load(f)
 
     model = RandomForestClassifier(
         n_estimators=args.n_estimators,

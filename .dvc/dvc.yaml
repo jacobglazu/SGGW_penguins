@@ -1,0 +1,20 @@
+stages:
+  download_data:
+    cmd: python main.py
+    deps: 
+      - main.py
+    params:
+      - data.dataset_id
+    outs:
+     - data/penguis.csv
+  train_model:
+    cmd: python notebooks/train.py
+    deps:
+      - notebooks/train.py
+      - data/train.csv
+    params:
+      - model.n_estimators
+      - model.max_depth
+      - model.random_state
+    outs:
+      - models/model.pkl

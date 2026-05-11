@@ -1,4 +1,5 @@
 import os
+import yaml
 import pandas as pd
 from sklearn.datasets import fetch_openml
 
@@ -12,12 +13,21 @@ class DataLoader:
     def load_data(self) -> pd.DataFrame:
         
         # Load the dataset based on the configuration
-        data_config = self.config["data"]
-        dataset_id = data_config["dataset_id"]
+        #data_config = self.config["data"]
+        #dataset_id = data_config["dataset_id"]
         
 
         # Fetch the dataset from OpenML
-        dataset = fetch_openml(data_id=dataset_id, as_frame=True)
+        #dataset = fetch_openml(data_id=dataset_id, as_frame=True)
+
+        with open("params.yaml") as f:
+            params = yaml.safe_load(f)
+    
+        dataset_id = params["data"]["dataset_id"]
+        print(f"Pobieranie danych Palmer Penguins (id={dataset_id})...")
+
+        dataset = fetch_openml(data_id=dataset_id, as_frame=True, parser="pandas")
+
         df = dataset.frame
         df = df.dropna()
         output_data = "data"
