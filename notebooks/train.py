@@ -91,7 +91,7 @@ def main():
 
 def load_process():
     # load model
-    df = pd.read_csv("../data/penguins.csv")
+    df = pd.read_csv("./data/penguins.csv")
     df_2 = df.copy()
     #df_2["sex"] = df_2["sex"].map({"male": 0, "female": 1}).astype(int)
 
@@ -109,12 +109,12 @@ def load_process():
     
     
     # load model train
-    train_df = pd.read_csv("../data/train.csv")
+    train_df = pd.read_csv("./data/train.csv")
     X_train = train_df.drop(columns=["species"])
     y_train = train_df["species"]
     
     # load model test
-    test_df = pd.read_csv("../data/test.csv")
+    test_df = pd.read_csv("./data/test.csv")
     X_test = test_df.drop(columns=["species"])
     y_test = test_df["species"]
 

@@ -6,7 +6,7 @@ stages:
     params:
       - data.dataset_id
     outs:
-     - data/penguis.csv
+     - data/penguins.csv
   train_model:
     cmd: python notebooks/train.py
     deps:
