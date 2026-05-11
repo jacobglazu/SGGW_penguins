@@ -44,7 +44,7 @@ class DataLoader:
 
         # Perform any necessary preprocessing steps
         
-        drop_columns = data_config.get("drop_columns", [])
+        drop_columns = dataset.get("drop_columns", [])
         if drop_columns:
             df = df.drop(columns=drop_columns)  
         return df
