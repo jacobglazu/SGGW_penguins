@@ -61,6 +61,7 @@ def main():
     with open("metric.json", "w") as f:
         json.dump(metric, f, indent=2)
 
+
     if "MLFLOW_RUN_ID" not in os.environ:
         mlflow.set_experiment("penguins-classification")
 

@@ -16,5 +16,8 @@ stages:
       - model.n_estimators
       - model.max_depth
       - model.random_state
-    outs:
-      - models/model.pkl
+    #outs:
+     # - models/model.pkl
+    metrics:
+      - metric.json:
+          cache: false
