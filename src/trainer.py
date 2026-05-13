@@ -57,8 +57,8 @@ class ModelTrainer:
         #return X_train, y_train
         model_train = self.model.fit(X_train,y_train)
 
-        #with open("models/model.pkl", "wb") as f:
-         #   pickle.dump(model_train, f)
+        with open("models/model.pkl", "wb") as f:
+           pickle.dump(model_train, f)
         train_data = pd.concat([X_train, y_train], axis=1)
         train_dataset = mlflow.data.from_pandas(train_data, name="penguins_train")
 

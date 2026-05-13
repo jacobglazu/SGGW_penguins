@@ -19,8 +19,8 @@ stages:
       size: 14992
     - path: notebooks/train.py
       hash: md5
-      md5: 6d59dd2b30ffd23d4ae752efafb0ad4b
-      size: 4252
+      md5: 5a193e9049ac7650846923051876c8e4
+      size: 4395
     params:
       params.yaml:
         model.max_depth: 2

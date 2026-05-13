@@ -2,6 +2,7 @@ import os
 import sys
 import yaml
 import json
+import pickle
 from joblib import dump
 import numpy as np
 import pandas as pd
@@ -52,6 +53,12 @@ def main():
     )
 
     model.fit(X_train, y_train)
+
+    os.makedirs("models", exist_ok=True)
+
+    with open("models/model.pkl", "wb") as f:
+        pickle.dump(model, f)
+
 
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
