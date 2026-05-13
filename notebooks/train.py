@@ -1,6 +1,7 @@
 import os
 import sys
 import yaml
+import json
 from joblib import dump
 import numpy as np
 import pandas as pd
@@ -55,6 +56,10 @@ def main():
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     f1 = f1_score(y_test, y_pred, average="weighted")
+
+    metric = {"accuracy" : accuracy, "f1" : f1}
+    with open("metric.json", "w") as f:
+        json.dump(metric, f, indent=2)
 
     if "MLFLOW_RUN_ID" not in os.environ:
         mlflow.set_experiment("penguins-classification")
