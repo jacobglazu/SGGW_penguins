@@ -60,3 +60,38 @@ stages:
       hash: md5
       md5: 6676da56f581b9f7dd02ac7431b641c7
       size: 671
+  evaluate:
+    cmd: python src_2/evaluate.py
+    deps:
+    - path: data/test.csv
+      hash: md5
+      md5: 9a916c62809778f690e771492c61eb37
+      size: 7593
+    - path: models/model.pkl
+      hash: md5
+      md5: 27436ded08e0e9c26cd35f90fd07f1d0
+      size: 429507
+    - path: src_2/evaluate.py
+      hash: md5
+      md5: 907ffeaba7888a91cf3fa551fa7c4bf3
+      size: 1109
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 69acf8e361d5172254c181fa772a8af8
+      size: 73
+  register_bentoml:
+    cmd: python src_2/register_bentoml.py
+    deps:
+    - path: models/encoder.pkl
+      hash: md5
+      md5: 6676da56f581b9f7dd02ac7431b641c7
+      size: 671
+    - path: models/model.pkl
+      hash: md5
+      md5: 27436ded08e0e9c26cd35f90fd07f1d0
+      size: 429507
+    - path: src_2/register_bentoml.py
+      hash: md5
+      md5: 9792751e7d7060e232a9ca983c21a243
+      size: 670

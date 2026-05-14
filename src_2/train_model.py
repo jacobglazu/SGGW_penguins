@@ -40,7 +40,7 @@ def main():
     study.optimize(objective, n_trials=40, callbacks=[mlflow_cb])
 
     # Best model training
-    best_model = RandomForestClassifier(**study.best_params, random_state=params["train"]["random_state"])
+    best_model = RandomForestClassifier(**study.best_params, random_state=params["model"]["random_state"])
     best_model.fit(X_train, y_train)
     
     with open("models/model.pkl", "wb") as f:

@@ -27,8 +27,10 @@ def main():
         mlflow.log_metrics(metrics)
         signature = infer_signature(X_test, y_pred)
         mlflow.sklearn.log_model(model, "model", signature=signature)
+
+    print(f"Metryki: accuracy={accuracy:.4f}, f1_score={f1:.4f}")
+    print("metrics.json was saved.")
     
-    print("Ewaluacja zakończona.")
 
 if __name__ == "__main__":
     main()
