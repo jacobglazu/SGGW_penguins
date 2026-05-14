@@ -1,33 +1,62 @@
 schema: '2.0'
 stages:
   download_data:
-    cmd: python main.py
+    cmd: python src_2/download_data.py
     deps:
-    - path: main.py
+    - path: src_2/download_data.py
       hash: md5
-      md5: d1f29df194fb9492153508dac5cf6479
-      size: 583
+      md5: 962d3567d19dae3f23763ac50b708b7b
+      size: 548
     params:
       params.yaml:
         data.dataset_id: 42585
+    outs:
+    - path: data/penguins.csv
+      hash: md5
+      md5: 011a4b12c613a766747a35d799bfe18f
+      size: 15360
   train_model:
-    cmd: python notebooks/train.py
+    cmd: python src_2/train_model.py
     deps:
     - path: data/train.csv
       hash: md5
-      md5: 228b5dda27a7d5bca94253ce91c52ca0
-      size: 14992
-    - path: notebooks/train.py
+      md5: 58629ec33c178a7cc1e78aff9e558b13
+      size: 11265
+    - path: src_2/train_model.py
       hash: md5
-      md5: 5a193e9049ac7650846923051876c8e4
-      size: 4395
+      md5: d50f67ce5d0d9d28099c9eb5632b99d2
+      size: 1641
     params:
       params.yaml:
         model.max_depth: 2
         model.n_estimators: 250
         model.random_state: 42
     outs:
-    - path: metric.json
+    - path: models/model.pkl
       hash: md5
-      md5: 9d2b5ed69a71246903ace9affa4eabba
-      size: 37
+      md5: 27436ded08e0e9c26cd35f90fd07f1d0
+      size: 429507
+  prepare_data:
+    cmd: python src_2/prepare_data.py
+    deps:
+    - path: data/penguins.csv
+      hash: md5
+      md5: 011a4b12c613a766747a35d799bfe18f
+      size: 15360
+    - path: src_2/prepare_data.py
+      hash: md5
+      md5: bc6fcf04f02c2f97294282738dd85032
+      size: 1369
+    outs:
+    - path: data/test.csv
+      hash: md5
+      md5: 9a916c62809778f690e771492c61eb37
+      size: 7593
+    - path: data/train.csv
+      hash: md5
+      md5: 58629ec33c178a7cc1e78aff9e558b13
+      size: 11265
+    - path: models/encoder.pkl
+      hash: md5
+      md5: 6676da56f581b9f7dd02ac7431b641c7
+      size: 671

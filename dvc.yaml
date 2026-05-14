@@ -1,16 +1,27 @@
 stages:
   download_data:
-    cmd: python main.py
-    deps: 
-      - main.py
+    cmd: python src_2/download_data.py
+    deps:
+      - src_2/download_data.py
     params:
       - data.dataset_id
-    #outs:
-     #- data/penguins.csv
-  train_model:
-    cmd: python notebooks/train.py
+    outs:
+      - data/penguins.csv
+
+  prepare_data:
+    cmd: python src_2/prepare_data.py
     deps:
-      - notebooks/train.py
+      - src_2/prepare_data.py
+      - data/penguins.csv
+    outs:
+      - data/train.csv
+      - data/test.csv
+      - models/encoder.pkl
+
+  train_model:
+    cmd: python src_2/train_model.py
+    deps:
+      - src_2/train_model.py
       - data/train.csv
     params:
       - model.n_estimators
@@ -18,6 +29,20 @@ stages:
       - model.random_state
     outs:
       - models/model.pkl
+
+  evaluate:
+    cmd: python src_2/evaluate.py
+    deps:
+      - src_2/evaluate.py
+      - models/model.pkl
+      - data/test.csv
     metrics:
-      - metric.json:
+      - metrics.json:
           cache: false
+
+  register_bentoml:
+    cmd: python src_2/register_bentoml.py
+    deps:
+      - src_2/register_bentoml.py
+      - models/model.pkl
+      - models/encoder.pkl
